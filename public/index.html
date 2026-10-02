@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <meta name="description" content="VR Field — 2D motion world with body, eye and head tracking.">
+  <title>VR Field</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar"><button class="brand" data-screen="home"><span class="brand-dot"></span><span>VR Field</span></button><div class="top-status"><span class="status-dot" id="globalStatusDot"></span><span id="globalStatus">Готово</span></div></header>
+  <main class="app-shell">
+    <section id="home" class="screen active">
+      <div class="hero-grid">
+        <div class="hero-copy"><p class="eyebrow">2D motion space</p><h1>Двигайся.<br>Персонаж повторит.</h1><p class="lead">Теперь персонаж умеет повторять руки, голову и взгляд, плавно поворачивается в псевдо-3D и возвращается в спокойную позу, когда игрок исчезает из кадра.</p><div class="hero-actions"><button class="btn btn-primary" id="createRoomBtn">Создать пространство</button><button class="btn btn-ghost" id="joinRoomBtn">Войти по коду</button></div><div class="mini-features"><span>Телефон</span><span>Глаза</span><span>Голова</span><span>Псевдо-3D</span></div></div>
+        <div class="preview-card"><div class="preview-head"><span>Живое поле</span><span class="tiny-pill">LIVE</span></div><canvas id="homeCanvas" width="780" height="500"></canvas><div class="preview-hint">Зелёный трекер используется только для проверки; сам мир остаётся 2D.</div></div>
+      </div>
+    </section>
+
+    <section id="lobby" class="screen">
+      <div class="page-head"><button class="icon-btn back" data-screen="home">←</button><div><p class="eyebrow">01 / подключение</p><h2>Создай своего игрока</h2></div></div>
+      <div class="lobby-grid">
+        <div class="panel"><div class="step-row"><span class="step active">1</span><span>Имя и персонаж</span></div><label class="field-label" for="playerName">Имя</label><input id="playerName" class="text-input" maxlength="24" placeholder="Например, Sokil"><label class="field-label room-code-input-label" for="joinRoomCode">Код комнаты <span>можно оставить пустым для новой</span></label><input id="joinRoomCode" class="text-input" maxlength="6" placeholder="Например, A7K4QP" style="text-transform:uppercase;letter-spacing:.16em"><div class="skin-grid" id="skinGrid"></div><div class="variation-gallery"><p class="eyebrow">Новые вариации</p><img src="/assets/character-variations.png" alt="Вариации персонажа" loading="lazy"></div><button class="btn btn-primary full" id="continueSkinBtn">Продолжить</button></div>
+        <div class="panel summary-panel"><p class="eyebrow">Твой персонаж</p><div class="character-card"><canvas id="skinPreview" width="260" height="310"></canvas></div><div id="skinMeta" class="skin-meta">Выбран стандартный скин</div><button class="btn btn-ghost full" id="openCreatorBtn">Создать свой скин</button><div class="character-note">Глаза персонажа теперь живые: зрачки будут следовать твоему взгляду.</div></div>
+      </div>
+    </section>
+
+    <section id="creator" class="screen"><div class="page-head"><button class="icon-btn back" data-screen="lobby">←</button><div><p class="eyebrow">Персонаж / редактор</p><h2>Нарисуй и привяжи кости</h2></div></div><div class="creator-grid"><div class="panel canvas-panel"><div class="tool-tabs"><button class="tool active" data-tool="paint">Рисование</button><button class="tool" data-tool="rig">Кости</button></div><div class="draw-area"><canvas id="drawCanvas" width="320" height="420"></canvas><div class="draw-overlay" id="rigOverlay"></div></div><div class="toolbar"><button class="small-btn" id="clearDrawBtn">Очистить</button><label class="color-picker">Цвет <input id="drawColor" type="color" value="#dfe7ff"></label><label class="range-line">Размер <input id="brushSize" type="range" min="2" max="30" value="10"></label></div></div><div class="panel creator-side"><p class="eyebrow">Привязка</p><p class="muted">Поставь точки головы, плеч, рук, бёдер и стоп. Ноги не участвуют в обязательной телефонной калибровке, но сохраняются для будущей физики.</p><div class="bone-list" id="boneList"></div><div class="creator-actions"><button class="btn btn-ghost" id="cancelCreatorBtn">Отмена</button><button class="btn btn-primary" id="saveCreatorBtn">Сохранить скин</button></div></div></div></section>
+
+    <section id="connect" class="screen"><div class="page-head"><button class="icon-btn back" data-screen="lobby">←</button><div><p class="eyebrow">02 / режим</p><h2>Как ты будешь играть?</h2></div></div><div class="mode-grid"><button class="mode-card" id="phoneModeBtn"><span class="mode-icon">⌁</span><span><strong>Телефон</strong><small>Тело + глаза + голова</small></span><b>→</b></button><button class="mode-card" id="vrModeBtn"><span class="mode-icon">◉</span><span><strong>VR</strong><small>Проверяем шлем и контроллеры</small></span><b>→</b></button></div><div class="info-strip"><span class="info-icon">i</span><span>Камера запускается отдельно от распознавания: даже если модель скелета/глаз не загрузилась, живое изображение не исчезает.</span></div></section>
+
+    <section id="phoneCheck" class="screen">
+      <div class="page-head"><button class="icon-btn back" data-screen="connect">←</button><div><p class="eyebrow">03 / калибровка</p><h2>Камера и трекеры</h2></div></div>
+      <div class="check-grid">
+        <div class="panel camera-panel">
+          <div class="camera-frame" id="cameraFrame"><video id="camera" playsinline muted aria-hidden="true"></video><canvas id="cameraPreview"></canvas><canvas id="poseOverlay"></canvas><div class="camera-guides" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div id="cameraPlaceholder" class="camera-placeholder">Камера ещё не запущена</div><div id="phonePoseState" class="pose-state">Камера: ожидание</div><div id="cameraStatus" class="camera-status">Ожидаем запуск</div></div>
+          <div class="camera-actions"><button class="btn btn-primary" id="startCameraBtn">Включить камеру</button><button class="btn btn-ghost" id="flipCameraBtn">Перевернуть</button></div>
+          <div class="camera-diagnostics"><span id="cameraPoints">Точек: 0/33</span><span id="eyeTrackingState">Глаза: ожидание</span><span id="eyeCalStatus">Глаза: ожидание</span><span id="headCalStatus">Голова: ожидание</span><span id="phonePhase"></span></div>
+          <div class="camera-hint" id="cameraHint">Важно: картинка выводится через отдельный canvas-preview. Она не зависит от того, загрузился ли скелет.</div>
+        </div>
+        <div class="panel check-panel">
+          <div class="progress-head"><span id="phoneStepTitle">Камера и изображение</span><span id="phoneStepIndex">1 / 7</span></div><div class="progress"><span id="phoneProgressBar"></span></div>
+          <div class="check-task" id="phoneTask">Включи камеру.</div><div class="check-result" id="phoneResult"></div>
+          <div class="calibration-status-grid"><div><span>Камера</span><b id="cameraStatusMini">Ожидание</b></div><div><span>Скелет</span><b id="bodyStatusMini">Ожидание</b></div><div><span>Глаза</span><b id="eyeStatusMini">Ожидание</b></div><div><span>Голова</span><b id="headStatusMini">Ожидание</b></div></div>
+          <button class="btn btn-primary full" id="continuePhoneBtn" disabled>Продолжить</button><button class="btn btn-ghost full skip-btn" id="skipCalibrationBtn">Пропустить калибровку</button>
+          <p class="latency-note" id="latencyNote">Связь с бэкендом ещё не проверена.</p>
+        </div>
+      </div>
+      <div class="panel settings-panel"><div class="settings-head"><div><p class="eyebrow">Точные настройки</p><h3>Регулировка всех трекеров</h3></div><span class="tiny-pill">сохраняется на телефоне</span></div><div class="settings-grid">
+        <label class="switch-row"><span><b>Тело</b><small>скелет и руки</small></span><input type="checkbox" id="set_bodyTracking"></label>
+        <label class="switch-row"><span><b>Глаза</b><small>зрачки и взгляд</small></span><input type="checkbox" id="set_eyeTracking"></label>
+        <label class="switch-row"><span><b>Голова</b><small>поворот и наклон</small></span><input type="checkbox" id="set_headTracking"></label>
+        <label class="switch-row"><span><b>Жест движения</b><small>рука вбок ≈ 1 секунда</small></span><input type="checkbox" id="set_gestureMovement"></label>
+        <label class="switch-row"><span><b>Прыжок</b><small>по вертикальному движению</small></span><input type="checkbox" id="set_jumpTracking"></label>
+        <label class="range-row"><span>Чувствительность позы <output id="set_poseThreshold_v"></output></span><input type="range" id="set_poseThreshold" min=".20" max=".65" step=".01"></label>
+        <label class="range-row"><span>Глаза <output id="set_eyeSensitivity_v"></output></span><input type="range" id="set_eyeSensitivity" min=".5" max="2" step=".05"></label>
+        <label class="range-row"><span>Голова <output id="set_headSensitivity_v"></output></span><input type="range" id="set_headSensitivity" min=".5" max="2" step=".05"></label>
+        <label class="range-row"><span>Движение <output id="set_movementSensitivity_v"></output></span><input type="range" id="set_movementSensitivity" min=".5" max="2" step=".05"></label>
+        <label class="range-row"><span>Плавность <output id="set_smoothing_v"></output></span><input type="range" id="set_smoothing" min="4" max="14" step=".5"></label>
+      </div><div class="recalibrate-row"><button class="small-btn" id="calibrateEyesBtn">Перекалибровать глаза</button><button class="small-btn" id="calibrateHeadBtn">Перекалибровать голову</button></div></div>
+    </section>
+
+    <section id="vrCheck" class="screen"><div class="page-head"><button class="icon-btn back" data-screen="connect">←</button><div><p class="eyebrow">03 / калибровка</p><h2>Проверяем VR</h2></div></div><div class="vr-check-grid"><div class="panel vr-visual"><div class="vr-avatar-demo"><div class="demo-head"></div><div class="demo-arm left"></div><div class="demo-arm right"></div><div class="demo-core"></div></div><div id="vrDeviceState" class="device-state">Проверяем поддержку WebXR…</div><button class="btn btn-primary" id="startVrCheckBtn">Запустить проверку</button></div><div class="panel check-panel"><div class="progress-head"><span>Подготовка</span><span>1 / 1</span></div><div class="progress"><span id="vrProgressBar"></span></div><div class="check-task" id="vrTask">Разреши VR-сессии доступ, если браузер попросит.</div><div class="check-result" id="vrResult"></div><button class="btn btn-primary full" id="continueVrBtn" disabled>Продолжить</button><p class="latency-note" id="vrLatencyNote">Связь с бэкендом ещё не проверена.</p></div></div></section>
+
+    <section id="room" class="screen"><div class="room-head"><div><p class="eyebrow">04 / пространство</p><h2 id="roomTitle">Поле</h2><div class="room-code-line">Код <strong id="roomCodeLabel">------</strong> <button class="copy-btn" id="copyRoomBtn">Копировать</button></div></div><div class="room-actions"><span class="latency-pill" id="roomLatency">— ms</span><button class="btn btn-ghost" id="inviteBtn">Пригласить телефон</button><button class="btn btn-ghost" id="leaveRoomBtn">Выйти</button></div></div><div class="field-layout"><div class="field-panel"><canvas id="worldCanvas" width="1400" height="760"></canvas><div class="field-hud"><span id="worldHint">Рука вбок ~1 секунду = движение. Подпрыгни = прыжок.</span><span id="playersCount">1 игрок</span></div></div><aside class="side-panel"><div class="side-section"><p class="eyebrow">Игроки</p><div id="playersList" class="players-list"></div></div><div class="side-section"><p class="eyebrow">Мой режим</p><div class="my-mode" id="myMode">—</div></div><div class="side-section"><p class="eyebrow">Состояние</p><div class="health-row"><span>Бэкенд</span><b id="backendHealth">Проверка…</b></div><div class="health-row"><span>Трекинг</span><b id="trackingHealth">Не запущен</b></div></div></aside></div><div class="invite-sheet hidden" id="inviteSheet"><div class="invite-card"><button class="icon-btn close" id="closeInviteBtn">×</button><p class="eyebrow">Телефон</p><h3>Сканируй QR-код</h3><div id="qrBox" class="qr-box"></div><p id="inviteUrl" class="invite-url"></p><button class="btn btn-ghost full" id="copyInviteBtn">Скопировать ссылку</button></div></div></section>
+
+    <section id="mobile" class="screen mobile-screen"><div class="mobile-top"><div><p class="eyebrow">VR Field / телефон</p><h2 id="mobileRoomTitle">Подключение</h2></div><span class="status-chip" id="mobileConnection">Нет связи</span></div><div class="mobile-camera-wrap" id="mobileCameraFrame"><video id="mobileCamera" playsinline muted aria-hidden="true"></video><canvas id="mobilePreview"></canvas><canvas id="mobileOverlay"></canvas><div class="mobile-guides"><span>Голова + плечи + руки</span><span>Свет спереди</span></div><div id="mobilePoseState" class="pose-state">Камера: ожидание</div></div><div class="mobile-camera-hint" id="mobileCameraHint">Изображение будет выведено даже при проблеме с 3D/скелетной моделью.</div><div class="mobile-state-row"><span id="mobileCameraState">Камера ⏳</span><span id="mobileBodyState">Скелет ⏳</span><span id="mobileEyeState">Глаза ⏳</span></div><div class="mobile-controls"><div class="mobile-metric"><span>Задержка</span><strong id="mobileLatency">— ms</strong></div><div class="mobile-metric"><span>Точек видно</span><strong id="mobilePoints">0/33</strong></div><button class="btn btn-primary" id="mobileStartBtn">Запустить трекинг</button><button class="btn btn-ghost" id="mobileFlipBtn">Перевернуть камеру</button><button class="btn btn-ghost" id="mobileSkipBtn">Пропустить калибровку</button></div><div class="mobile-task" id="mobileTask">Можно пропустить калибровку, если нужно просто открыть мир и проверить изображение камеры.</div></section>
+  </main>
+  <div class="modal hidden" id="modal"><div class="modal-card"><button class="icon-btn close" id="closeModalBtn">×</button><div id="modalContent"></div></div></div>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
