@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: nemllea-web
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ENGINE_API_URL
+        fromService:
+          name: nemllea-document-engine
+          type: web
+          property: host
+      - key: ENGINE_API_KEY
+        fromService:
+          name: nemllea-document-engine
+          type: web
+          envVarKey: ENGINE_API_KEY
+
+  - type: web
+    name: nemllea-document-engine
+    runtime: python
+    rootDir: engine
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ENGINE_ENV
+        value: production
+      - key: ENGINE_API_KEY
+        generateValue: true
+      - key: ENGINE_WEBHOOK_SECRET
+        generateValue: true
+      - key: ENGINE_CORS_ORIGINS
+        value: http://localhost:3000,http://localhost:5173
+      - key: ENGINE_RETENTION_HOURS
+        value: "6"

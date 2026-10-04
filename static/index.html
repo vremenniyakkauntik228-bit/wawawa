@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#050b12" />
+  <meta name="description" content="NemlleA — платформа Engine." />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <title>NemlleA | Engines</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="fog fog-l" aria-hidden="true"></div>
+  <div class="fog fog-r" aria-hidden="true"></div>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#/engines" aria-label="NemlleA"><img src="/logo.svg" alt="" /><span>NemlleA</span></a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#/home">Dashboard</a>
+        <a href="#/engines">Engines</a>
+        <a href="#/community"><svg class="ic" data-i="users"></svg>Community</a>
+        <a href="#/docs">Docs</a>
+      </nav>
+      <div class="top-actions">
+        <button class="icon-btn" id="searchBtn" aria-label="Поиск"><svg class="ic" data-i="search"></svg></button>
+        <button class="icon-btn" id="notifyBtn" aria-label="Уведомления"><svg class="ic" data-i="bell"></svg></button>
+        <button class="profile-btn" id="profileBtn" aria-label="Профиль"><span class="avatar"><svg class="ic" data-i="user"></svg></span><svg class="ic sm" data-i="chevron"></svg></button>
+      </div>
+    </header>
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Боковая навигация">
+        <a class="side-link" href="#/engines"><svg class="ic" data-i="engines"></svg><span>Engines</span></a>
+        <a class="side-link" href="#/community"><svg class="ic" data-i="users"></svg><span>Community</span></a>
+        <a class="side-link" href="#/docs"><svg class="ic" data-i="file"></svg><span>Documentation</span></a>
+        <div class="side-divider"></div>
+        <button class="side-link" id="settingsBtn"><svg class="ic" data-i="settings"></svg><span>Settings</span></button>
+        <button class="side-link" id="helpBtn"><svg class="ic" data-i="help"></svg><span>Help</span></button>
+      </aside>
+      <main id="app" class="content"></main>
+    </div>
+    <footer class="footer">
+      <div class="footer-brand"><img src="/logo.svg" alt="" /><span>NemlleA</span></div>
+      <div class="build">Build 1.0.0 &nbsp;·&nbsp; © 2025 NemlleA. All rights reserved.</div>
+      <div class="footer-links"><a href="#/privacy">Privacy</a><a href="#/terms">Terms</a><a href="#/contact">Contact</a></div>
+    </footer>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
