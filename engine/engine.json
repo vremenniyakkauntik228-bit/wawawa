@@ -1,0 +1,127 @@
+{
+  "name": "NemlleA Document Processing Engine",
+  "slug": "nemllea-document-processing-engine",
+  "author": "NemlleA",
+  "version": "1.0.2",
+  "description": "Standalone API-first document processing backend with asynchronous jobs, safe file handling, retry/cancellation controls and adapter-based extensions.",
+  "capabilities": [
+    "adapter-based-extensibility",
+    "asynchronous-jobs",
+    "document-analysis",
+    "file-upload",
+    "format-conversion",
+    "health-checks",
+    "idempotency-keys",
+    "job-cancellation",
+    "job-retry",
+    "limits-and-timeouts",
+    "process-group-timeout-isolation",
+    "progress-and-status",
+    "public-health-endpoints",
+    "retention-cleanup",
+    "text-correction",
+    "text-extraction",
+    "validation",
+    "webhook-target-validation",
+    "webhooks-and-events",
+    "engine-manifest",
+    "public-capabilities"
+  ],
+  "runtime": {
+    "language": "Python",
+    "version": ">=3.11,<3.15",
+    "api": "FastAPI",
+    "server": "Uvicorn"
+  },
+  "dependencies": {
+    "fastapi": "0.128.2",
+    "pydantic": "2.13.4",
+    "pydantic-settings": "2.14.1",
+    "uvicorn": "0.48.0",
+    "pypdf": "6.19.0",
+    "python-docx": "1.2.0",
+    "reportlab": "5.0.1",
+    "httpx": "0.28.1",
+    "python-multipart": ">=0.0.20",
+    "pytest": ">=9,<10",
+    "pytest-asyncio": ">=1.3,<2"
+  },
+  "resources": {
+    "minimum": {
+      "ram_mb": 512,
+      "cpu": 1,
+      "storage_gb": 1
+    },
+    "recommended": {
+      "ram_gb": 2,
+      "cpu": 2,
+      "storage_gb": 10
+    }
+  },
+  "supported_formats": {
+    "txt": {
+      "extensions": [
+        ".txt"
+      ],
+      "mime_types": [
+        "text/plain"
+      ]
+    },
+    "md": {
+      "extensions": [
+        ".md",
+        ".markdown"
+      ],
+      "mime_types": [
+        "text/markdown",
+        "text/plain"
+      ]
+    },
+    "json": {
+      "extensions": [
+        ".json"
+      ],
+      "mime_types": [
+        "application/json"
+      ]
+    },
+    "docx": {
+      "extensions": [
+        ".docx"
+      ],
+      "mime_types": [
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ]
+    },
+    "pdf": {
+      "extensions": [
+        ".pdf"
+      ],
+      "mime_types": [
+        "application/pdf"
+      ]
+    }
+  },
+  "hosting_compatibility": {
+    "docker": true,
+    "linux_vm": true,
+    "managed_container_platform": true,
+    "kubernetes": true,
+    "serverless_request_only": false,
+    "notes": "Persistent storage is required for reliable job/file retention; multiple replicas should use shared/object storage."
+  },
+  "compatibility": {
+    "platform_contract": "nemllea-engine/v1",
+    "frontend_independent": true,
+    "custom_integrations": true
+  },
+  "security": {
+    "api_key_required_in_production": true,
+    "webhook_ssrf_protection": true,
+    "webhook_redirects_disabled": true,
+    "worker_process_group_termination": true
+  },
+  "serial": "353-NEA-$#$-798-1.0.2-engiNemll",
+  "engine_id": "DOC-ENAKS-272",
+  "identity_file": "NEMLLEA_ENGINE.json"
+}
