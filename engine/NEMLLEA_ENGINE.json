@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "company": {
+    "name": "NemlleA",
+    "short_name": "NEA",
+    "identifier": "Nemll"
+  },
+  "engine": {
+    "name": "NemlleA Document Processing Engine",
+    "engine_id": "DOC-ENAKS-272",
+    "serial": "353-NEA-$#$-798-1.0.2-engiNemll",
+    "version": "1.0.2",
+    "status": "official",
+    "author": "NemlleA"
+  },
+  "model": {
+    "model_number": "353",
+    "model_code": "$#$",
+    "model_identifier": "798",
+    "purpose": "Document processing, analysis, validation, text extraction, normalization and text-oriented conversion"
+  },
+  "lineage": {
+    "original_engine_id": "DOC-ENAKS-272",
+    "original_serial_family": "353-NEA-$#$-798",
+    "is_fork": false
+  },
+  "integration": {
+    "contract": "nemllea-engine/v1",
+    "api_base": "/api/v1",
+    "frontend_independent": true,
+    "direct_api": true,
+    "webhooks": true,
+    "async_jobs": true
+  },
+  "supported_formats": [
+    "txt",
+    "md",
+    "json",
+    "docx",
+    "pdf"
+  ],
+  "runtime": {
+    "language": "Python",
+    "version": ">=3.11,<3.15",
+    "framework": "FastAPI",
+    "server": "Uvicorn"
+  },
+  "extensibility": {
+    "format_adapters": true,
+    "storage_adapters": true,
+    "hosting_adapters": true,
+    "custom_client_integration": true
+  },
+  "security": {
+    "api_key_production": true,
+    "webhook_hardening": true,
+    "temporary_file_cleanup": true
+  },
+  "license": "See LICENSE",
+  "note": "This file is mandatory for every NemlleA Engine release. Permanent identity fields must remain stable across versions."
+}
