@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#08090d" />
+<title>N-Sandbox — Instant Web Playground</title>
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<canvas id="scene" aria-label="N-Sandbox 3D playground"></canvas>
+<div class="vignette"></div>
+
+<header class="topbar glass">
+  <div class="brand">
+    <img src="./assets/n-sandbox-logo.jpg" class="brand-logo" alt="N-Sandbox logo" />
+    <div><div class="brand-title">N-SANDBOX</div><div class="brand-sub">instant physics playground · v0.3</div></div>
+  </div>
+  <div class="top-stats"><span class="badge">SANDBOX</span><span id="engine-status">LOCAL ENGINE</span><span class="dot"></span><span id="object-count">0 objects</span><span id="fps">-- FPS</span></div>
+</header>
+
+<aside class="left-panel glass">
+  <div class="panel-title">TOOLS</div>
+  <button class="tool active" data-tool="select"><span>↖</span><b>Select / Push</b><kbd>1</kbd></button>
+  <button class="tool" data-tool="move"><span>✣</span><b>Move / Snap</b><kbd>V</kbd></button>
+  <button class="tool" data-tool="cut"><span>╱</span><b>Cut</b><kbd>C</kbd></button>
+  <button class="tool" data-tool="explode"><span>✦</span><b>Shockwave</b><kbd>E</kbd></button>
+  <button class="tool" data-tool="magnet"><span>✧</span><b>Magnet</b><kbd>M</kbd></button>
+  <button class="tool" data-tool="wind"><span>≈</span><b>Gust</b><kbd>G</kbd></button>
+  <button class="tool" data-tool="freeze"><span>❄</span><b>Freeze</b><kbd>F</kbd></button>
+  <button class="tool" data-tool="paint"><span>●</span><b>Paint</b><kbd>P</kbd></button>
+  <button class="tool" data-tool="grab"><span>⌁</span><b>Grab / Pull</b><kbd>H</kbd></button>
+  <div class="divider"></div>
+  <button class="tool" id="duplicate-btn"><span>⧉</span><b>Duplicate</b><kbd>D</kbd></button>
+  <button class="tool" id="delete-btn"><span>⌫</span><b>Delete</b><kbd>Del</kbd></button>
+  <button class="tool" id="reset-btn"><span>⟳</span><b>Reset</b><kbd>R</kbd></button>
+</aside>
+
+<div class="spawn-anchor">
+ <button id="spawn-toggle" class="spawn-trigger" aria-label="Open object menu"><i></i><i></i><i></i><i></i></button>
+ <div id="spawn-menu" class="spawn-menu glass">
+  <div class="panel-title">SPAWN</div>
+  <div class="spawn-grid">
+   <button data-spawn="cube"><strong>Cube</strong><small>block</small><kbd>2</kbd></button>
+   <button data-spawn="sphere"><strong>Sphere</strong><small>ball</small><kbd>3</kbd></button>
+   <button data-spawn="cylinder"><strong>Cylinder</strong><small>roller</small><kbd>4</kbd></button>
+   <button data-spawn="plank"><strong>Plank</strong><small>beam</small><kbd>5</kbd></button>
+   <button data-spawn="wheel"><strong>Wheel</strong><small>roller</small><kbd>6</kbd></button>
+   <button data-spawn="domino"><strong>Domino</strong><small>chain</small><kbd>7</kbd></button>
+   <button data-spawn="crate"><strong>Crate</strong><small>heavy</small><kbd>8</kbd></button>
+   <button data-spawn="balloon"><strong>Balloon</strong><small>floats</small><kbd>9</kbd></button>
+   <button data-spawn="barrel"><strong>Barrel</strong><small>rolls</small><kbd>0</kbd></button>
+   <button data-spawn="dummy"><strong>Dummy</strong><small>ragdoll</small><kbd>Q</kbd></button>
+   <button data-spawn="bomb"><strong>Pulse Orb</strong><small>delayed</small><kbd>W</kbd></button>
+   <button data-spawn="spring"><strong>Spring</strong><small>bouncer</small><kbd>T</kbd></button>
+  </div>
+  <div class="divider"></div>
+  <button id="rain-btn" class="menu-wide"><strong>☄ Object Rain</strong><small>40 random props</small></button>
+  <button id="tower-btn" class="menu-wide"><strong>▦ Build Tower</strong><small>instant domino challenge</small></button>
+  <button id="party-btn" class="menu-wide"><strong>✹ Chaos Party</strong><small>spawn + gravity + gust</small></button>
+ </div>
+</div>
+
+<section class="mission glass">
+ <div class="panel-title">MISSION</div>
+ <div class="mission-title" id="mission-title">Stack it high</div>
+ <div class="mission-desc" id="mission-desc">Get 10 objects above the launch line.</div>
+ <div class="progress"><span id="mission-progress"></span></div>
+ <div class="mission-foot"><span id="mission-count">0 / 10</span><button id="mission-next">Next</button></div>
+</section>
+
+<section class="quick glass">
+ <div class="quick-title">QUICK LAB</div>
+ <button id="slow-btn">¼× TIME</button><button id="normal-btn">1×</button><button id="flip-btn">FLIP G</button><button id="portal-btn">PORTAL</button>
+</section>
+
+<section class="inspector glass">
+ <div class="panel-title">OBJECT</div>
+ <div class="selection-name" id="selection-name">Nothing selected</div>
+ <div class="selection-meta" id="selection-meta">Click anything in the scene.</div>
+ <div class="inspector-row"><span>Elastic</span><input id="elastic" type="range" min="0" max="1" step="0.01" value="0.35" /><b id="elastic-value">0.35</b></div>
+ <div class="color-row"><span>Paint</span><button class="swatch" data-color="#e84d5b"></button><button class="swatch" data-color="#54a8ff"></button><button class="swatch" data-color="#f1c453"></button><button class="swatch" data-color="#63d483"></button><button class="swatch" data-color="#c77dff"></button><button class="swatch" data-color="#e9edf2"></button></div>
+ <div class="inspector-actions"><button id="push-btn">Push</button><button id="cut-btn">Cut</button><button id="boom-btn">Boom</button></div>
+</section>
+
+<div class="bottom glass">
+ <button id="pause-btn">Pause</button><span class="sep"></span><span>Gravity</span><input id="gravity" type="range" min="0" max="20" step="0.1" value="9.8" /><b id="gravity-value">9.8</b><span class="sep"></span><button id="save-btn">Save</button><button id="load-btn">Load</button><button id="undo-btn">Undo</button><button id="redo-btn">Redo</button><button id="photo-btn">Photo</button>
+</div>
+
+<div class="hint glass" id="hint"><b>Click</b> select · <b>drag</b> push · <b>MMB</b> orbit · <b>wheel</b> zoom · press <b>?</b> for controls</div>
+<div id="help" class="help glass hidden"><div class="panel-title">CONTROLS</div><div class="help-grid"><span>1</span><b>Select</b><span>V</span><b>Move</b><span>C</span><b>Cut</b><span>E</span><b>Shockwave</b><span>M</span><b>Magnet</b><span>G</span><b>Gust</b><span>F</span><b>Freeze</b><span>P</span><b>Paint</b><span>H</span><b>Grab</b><span>Space</span><b>Pause</b></div><button id="close-help">Close</button></div>
+<div id="toasts" class="toasts"></div>
+<div id="boot" class="boot"><div class="boot-card glass"><img src="./assets/n-sandbox-logo.jpg" class="boot-logo" alt=""/><div class="boot-title">N-SANDBOX</div><div class="boot-sub">Starting the local browser engine…</div><div class="boot-bar"><span id="boot-progress"></span></div><div id="boot-state" class="boot-state">Starting</div></div></div>
+<script src="./app.js"></script>
+</body>
+</html>
