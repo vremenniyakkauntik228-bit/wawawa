@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 188" role="img" aria-label="NemlleA">
-  <defs>
-    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d9be0"/><stop offset="1" stop-color="#1a5a94"/></linearGradient>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5bb45"/><stop offset="1" stop-color="#c47c14"/></linearGradient>
-    <path id="s" d="M22 18H104L84 40H52V72L104 104V170H22L44 148H76V124L22 90Z"/>
-  </defs>
-  <use href="#s" fill="url(#b)"/>
-  <use href="#s" fill="url(#g)" stroke="#06121c" stroke-width="3" stroke-linejoin="round" transform="rotate(180 100 94)"/>
-</svg>
